@@ -41,7 +41,7 @@ uniformer和传统transformer最大的区别就在于关系聚合器
 
 总体结构如下图
 
-![](assets/overall_architecture_of_uniformer.jpg)
+![](/assets/overall_architecture_of_uniformer.jpg)
 $$
 X = DPE(X_{in}) + X_{in} {\quad} {\quad}(1)\\
 Y = MHRA(Norm(X)) + X  {\quad}(2)\\
@@ -64,7 +64,7 @@ $$
 
   $R_n({\cdot})$ 表示第$n$头的RA（the relation aggregator (RA) in the n-th head）
 
-  $U {\in} \mathbb{R} ^ {C \times C}$ 是一个结合$$N$$头特征的可学习的参数矩阵
+  $U {\in} \mathbb{R} ^ {C \times C}$ 是一个结合$N$头特征的可学习的参数矩阵
 
   经过一层线性变化，将原始token转化为上下文$V_n(\bf X) \in \mathbb{R} ^ {L{\times}{\dfrac{C}{N}}} $
 
