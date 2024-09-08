@@ -41,7 +41,7 @@ uniformer和传统transformer最大的区别就在于关系聚合器
 
 总体结构如下图
 
-![image](/assets/overall_architecture_of_uniformer.jpg)
+![image](assets/overall_architecture_of_uniformer.jpg)
 $$
 X = DPE(X_{in}) + X_{in} {\quad} {\quad}(1)\\
 Y = MHRA(Norm(X)) + X  {\quad}(2)\\
