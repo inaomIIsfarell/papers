@@ -58,31 +58,31 @@ $$
   $$
   
 
-  ​		输入的tensor $$\bf {X}_{in} {\in} {\mathbb{R}^{C{\times}T{\times}H{\times}W}}$$，首先将其reshape为一个序列tokens $$\bf{X_{in}} {\in} {\mathbb{R}^{L{\times}C }}$$ ，其中 $$L = T \times H \times W$$ 
+  ​		输入的tensor $\bf {X}_{in} {\in} {\mathbb{R}^{C{\times}T{\times}H{\times}W}}$，首先将其reshape为一个序列tokens $\bf{X_{in}} {\in} {\mathbb{R}^{L{\times}C }}$ ，其中 $L = T \times H \times W$
 
   
 
-  $$R_n({\cdot})$$ 表示第$$n$$头的RA（the relation aggregator (RA) in the n-th head）
+  $R_n({\cdot})$ 表示第$n$头的RA（the relation aggregator (RA) in the n-th head）
 
-  $$U {\in} \mathbb{R} ^ {C \times C}$$ 是一个结合$$N$$头特征的可学习的参数矩阵
+  $U {\in} \mathbb{R} ^ {C \times C}$ 是一个结合$$N$$头特征的可学习的参数矩阵
 
-  经过一层线性变化，将原始token转化为上下文$$V_n(\bf X) \in \mathbb{R} ^ {L{\times}{\dfrac{C}{N}}} $$
+  经过一层线性变化，将原始token转化为上下文$V_n(\bf X) \in \mathbb{R} ^ {L{\times}{\dfrac{C}{N}}} $
 
-  随后RA能通过$$A_n \in \mathbb{R}^{L{\times}L}$$ 对上下文进行有机聚合
+  随后RA能通过$A_n \in \mathbb{R}^{L{\times}L}$ 对上下文进行有机聚合
 
-  **RA**的关键就在于如何从视频中学习$$A_n$$
+  **RA**的关键就在于如何从视频中学习$A_n$
 
   
 
   - **Local MHRA**（局部 MHRA）
 
-  ​        作者提出在浅层的目标就是从小的3D邻域中的局部时空上下文学习到视频表征的细节，这与3D卷积的设计有着一样的见解。浅层中，相邻tokens间视频内容变化很微妙，所以通过局部操作降低冗余以编码细节特征十分重要，因此在此作者将 $$A_n$$ 设计为在局部3D邻域中操作的可学习参数矩阵
+  ​        作者提出在浅层的目标就是从小的3D邻域中的局部时空上下文学习到视频表征的细节，这与3D卷积的设计有着一样的见解。浅层中，相邻tokens间视频内容变化很微妙，所以通过局部操作降低冗余以编码细节特征十分重要，因此在此作者将 $A_n$ 设计为在局部3D邻域中操作的可学习参数矩阵
 
-  ​		给定一个 $${\bf X}_i$$ ，**RA** 通过该token和同一邻域 $$\Omega{_n}^{t \times h \times w}$$ (见Appendix **A**)中其他tokens学习局部的时空信息
+  ​		给定一个 ${\bf X}_i$ ，**RA** 通过该token和同一邻域 $\Omega{_n}^{t \times h \times w}$ (见Appendix **A**)中其他tokens学习局部的时空信息
   $$
   A_n^{local}({\bf X}_i, {\bf X}_j) = a_n^{i-j}, {\quad} where {\quad} j \in \Omega _i ^ {t \times h \times w} \quad \quad (6)
   $$
-  $$a_n \in \mathbb{R} ^ {t \times h \times w}$$ 表示可学习的参数矩阵， $${\bf X}_j$$ 指的是邻域 $$\Omega{_n}^{t \times h \times w}$$ 中的任意相邻token，$$(i - j)$$ 为二者相对位置，表明 $$A_n$$ 的值只与相对位置有关 
+  $a_n \in \mathbb{R} ^ {t \times h \times w}$ 表示可学习的参数矩阵， ${\bf X}_j$ 指的是邻域 $\Omega{_n}^{t \times h \times w}$ 中的任意相邻token，$(i - j)$ 为二者相对位置，表明 $A_n$ 的值只与相对位置有关 
 
   
 
@@ -96,7 +96,7 @@ $$
     $$
     A_n ^ {global} ({\bf X}_i, {\bf X}_j) = \frac{e^{Q_n({\bf X}_i)^T K_n({\bf X}_j)}}{{\sum}_{j ^ {'} \in {\Omega}_{T \times H \times W}}e^{Q_n({\bf X}_i)^T K_n({\bf X}_{j ^ {'}})}} \quad (7)
     $$
-    ​		$${\bf X}_j$$ 是全局的3D邻域中的任意token，$$Q(\cdot)$$ 和 $$K(\cdot)$$  是不同的线性变换
+    ​		${\bf X}_j$ 是全局的3D邻域中的任意token，$Q(\cdot)$ 和 $K(\cdot)$  是不同的线性变换
   
     
   
@@ -104,7 +104,6 @@ $$
     
     
   
-
 - **Dynamic Position Embedding**（动态位置编码）
 
 ​		视频具有时间和空间特性，对token的时空位置信息进行编码很有必要。之前的方法主要是在图片任务上进行绝对或相对位置编码。绝对位置编码在处理更大分辨率的输入是需要进行线性插值以及额外的参数微调，相对位置编码会对self-attention的形式进行修改且因为缺乏绝对位置信息使得模型表现更差，因此本文使用卷积位置编码设计**DPE**
@@ -119,11 +118,11 @@ $$
 
 如上图所示，模型一共分4个stages，通道数分别是64，128，320，512。其中Uniformer-S {3, 4, 8, 3}，Uniformer-B {5, 8, 20, 7}
 
-前两个stages使用局部**MHRA**，邻域大小设置为 $$5 \times 5 \times 5$$ ，头数 $$N$$ 与通道数对应，归一化使用BN；后两个stages使用全局**MHRA**，头维度设置为64，归一化使用LN
+前两个stages使用局部**MHRA**，邻域大小设置为 $5 \times 5 \times 5$ ，头数 $$N$$ 与通道数对应，归一化使用BN；后两个stages使用全局**MHRA**，头维度设置为64，归一化使用LN
 
-**DPE** 的卷积核大小为$$3 \times 3 \times 3 \quad (T \times H \times W)$$ ，**FFN** 的拓展倍数为4
+**DPE** 的卷积核大小为$3 \times 3 \times 3 \quad (T \times H \times W)$ ，**FFN** 的拓展倍数为4
 
-作者还在stage1之前使用 $$3 \times 4 \times 4$$ 的卷积， $$2 \times 4 \times 4$$ 的步长对时空两个维度进行下采样，在其他stages前则使用$$1 \times 2 \times 2 (conv) \quad 1 \times 2 \times 2 (stride)$$ 的卷积进行下采样
+作者还在stage1之前使用 $3 \times 4 \times 4$ 的卷积， $2 \times 4 \times 4$ 的步长对时空两个维度进行下采样，在其他stages前则使用$1 \times 2 \times 2 (conv) \quad 1 \times 2 \times 2 (stride)$ 的卷积进行下采样
 
 
 
