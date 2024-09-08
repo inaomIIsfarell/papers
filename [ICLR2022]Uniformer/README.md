@@ -41,7 +41,7 @@ uniformer和传统transformer最大的区别就在于关系聚合器
 
 总体结构如下图
 
-![](D:\papers\Uniformer\overall_architecture_of_uniformer.jpg)
+![](assets/overall_architecture_of_uniformer.jpg)
 $$
 X = DPE(X_{in}) + X_{in} {\quad} {\quad}(1)\\
 Y = MHRA(Norm(X)) + X  {\quad}(2)\\
@@ -92,7 +92,7 @@ $$
 
   - **Global MHRA**
   
-    ​		在网络的深层，作者提出需要对整个特征空间建立长时关系（Inthedeeplayers, we focus on capturing long-term token dependency in the global video clip）和self-attention的思想一致，因此作者提出需要比较全局上下文相似度来构建 $$A_n$$
+    ​		在网络的深层，作者提出需要对整个特征空间建立长时关系（Inthedeeplayers, we focus on capturing long-term token dependency in the global video clip）和self-attention的思想一致，因此作者提出需要比较全局上下文相似度来构建 $A_n$
     $$
     A_n ^ {global} ({\bf X}_i, {\bf X}_j) = \frac{e^{Q_n({\bf X}_i)^T K_n({\bf X}_j)}}{{\sum}_{j ^ {'} \in {\Omega}_{T \times H \times W}}e^{Q_n({\bf X}_i)^T K_n({\bf X}_{j ^ {'}})}} \quad (7)
     $$
@@ -110,7 +110,7 @@ $$
 $$
 DPE({\bf X}_{in}) = DWConv({\bf X}_{in})
 $$
-​		$$DWConv$$ 就是零填充的深度可分离卷积。一方面，卷积对任何输入形式都很友好，也很容易拓展到空间维度统一编码时空位置信息。另一方面，深度可分离卷积十分轻量，额外的零填充可以帮助每个token确定自己的绝对位置。
+​		$DWConv$ 就是零填充的深度可分离卷积。一方面，卷积对任何输入形式都很友好，也很容易拓展到空间维度统一编码时空位置信息。另一方面，深度可分离卷积十分轻量，额外的零填充可以帮助每个token确定自己的绝对位置。
 
 ​		
 
@@ -118,7 +118,7 @@ $$
 
 如上图所示，模型一共分4个stages，通道数分别是64，128，320，512。其中Uniformer-S {3, 4, 8, 3}，Uniformer-B {5, 8, 20, 7}
 
-前两个stages使用局部**MHRA**，邻域大小设置为 $5 \times 5 \times 5$ ，头数 $$N$$ 与通道数对应，归一化使用BN；后两个stages使用全局**MHRA**，头维度设置为64，归一化使用LN
+前两个stages使用局部**MHRA**，邻域大小设置为 $5 \times 5 \times 5$ ，头数 $N$ 与通道数对应，归一化使用BN；后两个stages使用全局**MHRA**，头维度设置为64，归一化使用LN
 
 **DPE** 的卷积核大小为$3 \times 3 \times 3 \quad (T \times H \times W)$ ，**FFN** 的拓展倍数为4
 
@@ -126,12 +126,5 @@ $$
 
 
 
-### 实验
 
-![](D:\papers\Uniformer\experiment_kinetics.jpg)
 
-![](D:\papers\Uniformer\experiment_ss.jpg)
-
-### 消融实验
-
-Uniformer vs. Convolution: transformer-style 的前馈神经网络起作用了吗
