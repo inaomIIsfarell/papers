@@ -1,5 +1,11 @@
 ## Multimodal Motion Conditioned Diffusion Model for Skeleton-based Video Anomaly Detection
 
+[papers]([[2307.07205\] Multimodal Motion Conditioned Diffusion Model for Skeleton-based Video Anomaly Detection (arxiv.org)](https://arxiv.org/abs/2307.07205))
+
+[code]([aleflabo/MoCoDAD: The official PyTorch implementation of the IEEE/CVF International Conference on Computer Vision (ICCV) '23 paper Multimodal Motion Conditioned Diffusion Model for Skeleton-based Video Anomaly Detection. (github.com)](https://github.com/aleflabo/MoCoDAD))
+
+
+
 **Video Anomaly Detection**（视频异常检测）任务存在的挑战：
 
 1. 异常定义困难。异常的定义不仅具有高度主观性，而且根据环境和应用的不同也有所不同
