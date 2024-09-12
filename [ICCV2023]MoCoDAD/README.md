@@ -1,8 +1,8 @@
 ## Multimodal Motion Conditioned Diffusion Model for Skeleton-based Video Anomaly Detection
 
-[papers]([[2307.07205\] Multimodal Motion Conditioned Diffusion Model for Skeleton-based Video Anomaly Detection (arxiv.org)](https://arxiv.org/abs/2307.07205))
+[papers](https://arxiv.org/abs/2307.07205)
 
-[code]([aleflabo/MoCoDAD: The official PyTorch implementation of the IEEE/CVF International Conference on Computer Vision (ICCV) '23 paper Multimodal Motion Conditioned Diffusion Model for Skeleton-based Video Anomaly Detection. (github.com)](https://github.com/aleflabo/MoCoDAD))
+[code](https://github.com/aleflabo/MoCoDAD)
 
 
 
