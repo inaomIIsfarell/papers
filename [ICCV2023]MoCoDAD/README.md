@@ -1,5 +1,7 @@
 ## Multimodal Motion Conditioned Diffusion Model for Skeleton-based Video Anomaly Detection
 
+
+
 [papers](https://arxiv.org/abs/2307.07205)
 
 [code](https://github.com/aleflabo/MoCoDAD)
@@ -89,7 +91,7 @@
 
 ​		input concatenation 使用原始输入运动的一部分进行调节，保持过去的动作序列未损坏，将其添加到被损坏的未来的序列中；
 
-​		embedding选项都是指通过encoder $E$ 传递过去帧的信息，然后给到去噪模型的所有潜在层。$E$ 是一个GCN，对$X^{1:k}$ 编码成 $h = E(X^{1:k})$ 。对E2E-embedding，$E$ 和其他的模块一起通过损失函数 ${\mathcal L}_{smooth}$ 学习；对AE-embedding，添加了一个辅助重构建损失函数 ${\mathcal L}_{rec}$ 来学习$E$ ，其任务是通过一个decoder网络 $D$ 和损失函数基于过去帧的信息进行调节![image-20240911182947911](assets/fomula_4.png)
+​		embedding选项都是指通过encoder $E$ 传递过去帧的信息，然后给到去噪模型的所有潜在层。$E$ 是一个GCN，对$X^{1:k}$ 编码成 $h = E(X^{1:k})$ 。对E2E-embedding（），$E$ 和其他的模块一起通过损失函数 ${\mathcal L}_{smooth}$ 学习；对AE-embedding，添加了一个辅助重构建损失函数 ${\mathcal L}_{rec}$ 来学习$E$ ，通过decoder网络 $D$ 和损失函数基于过去帧的信息进行调节![image-20240911182947911](assets/fomula_4.png)
 
 ​		辅助损失函数构成主损失函数的一部分![image-20240911183046507](assets/fomula_5.png)
 
@@ -116,3 +118,63 @@
 ![image-20240912112654356](assets/comparison_MoCoDAD_with_supervised_weekly_supervised_methods_AUC.png)
 
 ​		评价数值为AUC，前三个为监督方法，第四个为弱监督方法
+
+### Discussion
+
+- Conditioning
+
+  - input concatenation
+
+    效果不好，原因应该是相对于embedding方法无法有效将过去的运动信息注入网络，并且这会让网络倾向于“记住”这些信息而不是专注于对未来动作进行降噪
+
+  - E2E-embedding
+
+    效果一般，作者认为可能是由于非监督的可学习embedding层导致的，同样不能很好的表示原始动作
+
+  - AE-embedding
+
+    encoder-decoder，通过辅助损失函数 ${\mathcal L}_{rec}$ 训练整个模型
+
+![image-20240913184903291](assets/ablation_of_different_method_in_conditioning.png)
+
+- 对添加噪音的部分的选取
+
+  - in-between imputation
+
+    破坏中间的 $N - k$ 个动作帧，保留起始与结束部分将其放入conditioning部分
+
+  - random imputation
+
+    随机选择 $N-k$ 个不包含完整动作的帧并破坏，其余部分放入conditioning
+
+  - Forecasting
+
+    选定某一处，破坏往后的动作帧，前方的部分放入conditioning
+
+  ![image-20240913190711463](assets/ablation_of_the_type_of_conditioning_information.png)
+
+- 潜在语义表示（Feeding Diffusion部分）
+
+  
+
+  这部分研究 1）对要加入噪音破坏的序列在未被破坏前先提取潜在语义表示后加入噪音进行破坏 和  2）对要加入噪音破坏的序列直接加入噪音 对模型整体表现的影响
+
+  
+
+  - MoCoDAD + MLD
+
+    使未受噪音破坏的 $X^{k+1:N}$ 经过一个VAE生成一个潜在表示 Z ，用基于transformer的降噪模型对 Z 进行降噪
+
+  - Latent-MoCoDAD
+
+    使用 STS-VAE 学习 Z ，用本文提出的diffusion对其进行降噪
+
+  
+
+  对上述两种方法，将被噪音破坏的 Z 经过一层包含conditioning信息的MLP后进入Reverse Diffusion部分，conditioning部分和原始MoCoDAD保持一致![image-20240913204836846](assets/ablation_of_diffusion_on_latent_or_original.png)
+
+  
+
+  对要加入噪音破坏的序列直接加入噪音表现更好，作者认为是骨骼表示的轻量级编码的原因
+
+​				
