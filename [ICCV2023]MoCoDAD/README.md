@@ -59,7 +59,7 @@
 
 - **Training**
 
-​		假设有一个单人连续动作序列 ${\bf X} = \{x^1, x^2, ... , x^N\}$，其中每个 $i$ 时刻的动作都能被看成一个图 $x^i = (J, A)$，其中 $J$ 表示关节的集合，**A** 表示代表关节连接关系的邻接矩阵。值得注意的是，每个关节都有一组空间坐标 ${\mathbb R}^C$ ，因此$x_i \in {\mathbb R}^{|J| \times C}$， ${\bf X} \in {\mathbb R}^{N \times |J| \times C}$，C = 2
+​		假设有一个单人连续动作序列 ${\bf X} = \{x^1, x^2, ... , x^N\}$，其中每个 $i$ 时刻的动作都能被看成一个图 $x^i = (J, A)$，其中 $J$ 表示关节的集合，$A$ 表示代表关节连接关系的邻接矩阵。值得注意的是，每个关节都有一组空间坐标 ${\mathbb R}^C$ ，因此， $x_i \in {\mathbb R}^{|J| \times C}$, ${\bf X} \in {\mathbb R}^{N \times |J| \times C}$，C = 2
 
 ​		Forward过程中，将运动序列分成两部分 $X^{1:k}$ 和 $X^{k+1:N}$，对于后者，加入随机噪音 ${\varepsilon}^{k+1:N} \in {\mathbb R}^{(N-k) \times |J| \times C}$ 破坏关节位置，随着diffusion timestep逐渐加大对 $x_{t=1} \rightarrow ... \rightarrow x_{t=T}$ 的噪音。
 
