@@ -59,11 +59,11 @@
 
 - **Training**
 
-​		假设有一个单人连续动作序列 ${\bf X} = \{x^1, x^2, ... , x^N\}$，其中每个 $i$ 时刻的动作都能被看成一个图 $x^i = (J, A)$，其中 $J$ 表示关节的集合，$A$ 表示代表关节连接关系的邻接矩阵。值得注意的是，每个关节都有一组空间坐标 ${\mathbb R}^C$ ，因此$x_i \in {\mathbb R}^{|J| \times C}$，${\bf X} \in {\mathbb R}^{N \times |J| \times C}$，C = 2
+​		假设有一个单人连续动作序列 ${\bf X} = \{x^1, x^2, ... , x^N\}$，其中每个 $i$ 时刻的动作都能被看成一个图 $x^i = (J, A)$，其中 $J$ 表示关节的集合，**A** 表示代表关节连接关系的邻接矩阵。值得注意的是，每个关节都有一组空间坐标 ${\mathbb R}^C$ ，因此$x_i \in {\mathbb R}^{|J| \times C}$， ${\bf X} \in {\mathbb R}^{N \times |J| \times C}$，C = 2
 
 ​		Forward过程中，将运动序列分成两部分 $X^{1:k}$ 和 $X^{k+1:N}$，对于后者，加入随机噪音 ${\varepsilon}^{k+1:N} \in {\mathbb R}^{(N-k) \times |J| \times C}$ 破坏关节位置，随着diffusion timestep逐渐加大对 $x_{t=1} \rightarrow ... \rightarrow x_{t=T}$ 的噪音。
 
-​		Reverse过程中需要通过一个类似于U-Net结构的网络 ${\varepsilon}_{\theta}$ 修复动作损坏，去除噪音 ${\varepsilon}^{k+1:N}$ ，根据diffusion timestep（embedded through an MLP）和 $h$ （对前一段运动序列$X^{1:k}$ embedding得到）训练网络 
+​		Reverse过程中需要通过一个类似于U-Net结构的网络 ${\varepsilon}_{\theta}$ 修复动作损坏，去除噪音 ${\varepsilon}^{k+1:N}$ ，根据diffusion timestep（embedded through an MLP）和 $h$ （对前一段运动序列 $X^{1:k}$ embedding得到）训练网络 
 
 ​		定义了一个偏差评估对象![image-20240911100337938](assets/fomula_1.png)
 
@@ -91,7 +91,7 @@
 
 ​		input concatenation 使用原始输入运动的一部分进行调节，保持过去的动作序列未损坏，将其添加到被损坏的未来的序列中；
 
-​		embedding选项都是指通过encoder $E$ 传递过去帧的信息，然后给到去噪模型的所有潜在层。$E$ 是一个GCN，对$X^{1:k}$ 编码成 $h = E(X^{1:k})$ 。对E2E-embedding（），$E$ 和其他的模块一起通过损失函数 ${\mathcal L}_{smooth}$ 学习；对AE-embedding，添加了一个辅助重构建损失函数 ${\mathcal L}_{rec}$ 来学习$E$ ，通过decoder网络 $D$ 和损失函数基于过去帧的信息进行调节![image-20240911182947911](assets/fomula_4.png)
+​		embedding选项都是指通过 GCN encoder $E$ 传递过去帧的信息，编码 $h = E(X^{1:k})$ 。对E2E-embedding，$E$ 和其他的模块一起通过损失函数 ${\mathcal L}_{smooth}$ 学习；对AE-embedding，添加了一个辅助重构建损失函数 ${\mathcal L}_{rec}$ 来学习 $E$，通过decoder网络 $D$ 和损失函数基于过去帧的信息进行调节![image-20240911182947911](assets/fomula_4.png)
 
 ​		辅助损失函数构成主损失函数的一部分![image-20240911183046507](assets/fomula_5.png)
 
