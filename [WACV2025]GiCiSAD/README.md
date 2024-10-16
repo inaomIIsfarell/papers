@@ -2,7 +2,7 @@
 
 
 
-[paper](Graph-Jigsaw Conditioned Diffusion Model for Skeleton-based Video Anomaly Detection)
+[paper](https://arxiv.org/abs/2403.12172)
 
 [code](https://github.com/karami7899/Graph-Jigsaw-Conditioned-Diffusion-Model-for-Skeleton-based-Video-Anomaly-Detection)
 
@@ -98,7 +98,7 @@
 
 ### Graph-based Conditional Diffusion Model
 
-和 [MoCoDAD](https://github.com/inaomIIsfarell/papers/tree/main/[ICCV2023]MoCoDAD) 中的 diffusion 模块 基本一致，不想写了
+和 [MoCoDAD](https://github.com/inaomIIsfarell/papers/tree/main/[ICCV2023]MoCoDAD) 中的 diffusion 模块 基本一致，不做过多赘述
 
 
 
